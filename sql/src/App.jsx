@@ -11,7 +11,10 @@ const [editName, setEditName] = useState('');
 const [editAge, setEditAge] = useState('');
 useEffect(() => {
 fetchUsers();
-}, []); // Run only once on component mount
+}, []); // Run only once on component mount\
+
+//the fetch users function has an await method that waits for the http to load before it gets the users,hence.get,the url is the api for users,the set users function is the one from the use state
+//so it it is used to get the data from users and output it
 const fetchUsers = async () => {
 try {
 const response = await axios.get('http://localhost:3001/users');

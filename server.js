@@ -7,58 +7,71 @@ app.use(cors());
 app.use(express.json());
 // Create the table
 const createTable = () => {
-const sql = `
-CREATE TABLE IF NOT EXISTS user (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-name TEXT NOT NULL,
-age INTEGER
-)
-`;
-db.prepare(sql).run();
-};
+    const userSql = `
+    CREATE TABLE IF NOT EXISTS user (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        password text
+    )`;
+    const todoSql = `
+    CREATE TABLE IF NOT EXISTS todo (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        description TEXT NOT NULL,
+        priority text
+    )`;
+    db.prepare(userSql).run();
+    db.prepare(todoSql).run();
+    };
+
 createTable();
+
+
+
 // Insert a new user
 app.post('/users', (req, res) => {
-const { name, age } = req.body;
-const sql = `
-INSERT INTO user (name, age)
-VALUES (?, ?)
-`;
-const info = db.prepare(sql).run(name, age);
-res.status(201).json({ id: info.lastInsertRowid });
+    const { name, password } = req.body;
+    const sql = `
+    INSERT INTO user (name, age)
+    VALUES (?, ?)
+    `;
+    const info = db.prepare(sql).run(name, age);
+    res.status(201).json({ id: info.lastInsertRowid });
 });
+
 // Get all users
 app.get('/users', (req, res) => {
-const sql = `
-SELECT * FROM user
-`;
-const rows = db.prepare(sql).all();
-res.json(rows);
+    const sql = `
+    SELECT * FROM user
+    `;
+    const rows = db.prepare(sql).all();
+    res.json(rows);
 });
+
 // Get a user by id
 app.get('/users/:id', (req, res) => {
-const { id } = req.params;
-const sql = `
-SELECT * FROM user
-WHERE id = ?
-`;
-const row = db.prepare(sql).get(id);
-if (row) {
-res.json(row);
-} else {
-res.status(404).json({ error: 'User not found' });
-}
+    const { id } = req.params;
+    const sql = `
+    SELECT * FROM user
+    WHERE id = ?
+    `;
+    const row = db.prepare(sql).get(id);
+    if (row) {
+    res.json(row);
+    } else {
+    res.status(404).json({ error: 'User not found' });
+    }
 });
+
 // Update a user by id
 app.put('/users/:id', (req, res) => {
 const { id } = req.params;
-const { name, age } = req.body;
+const { name, password } = req.body;
 const sql = `
 UPDATE user
-SET name = ?, age = ?
+SET name = ?, password = ?
 WHERE id = ?
 `;
-const info = db.prepare(sql).run(name, age, id);
+const info = db.prepare(sql).run(name, password, id);
 if (info.changes > 0) {
 res.json({ message: 'User updated successfully' });
 } else {
