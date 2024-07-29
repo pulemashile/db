@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import "./App.css";
 
 const App = () => {
     const [todos, setTodos] = useState([]);
@@ -32,7 +33,7 @@ const App = () => {
 
     const updateTodo = async (id) => {
         try {
-            await axios.put(`http://localhost:3001/todos/${id}`, { description: description, priority: priority });
+            await axios.put(`http://localhost:3001/todos/${id}`, { description, priority });
             fetchTodos();
         } catch (error) {
             console.error('Error updating todo:', error);
@@ -47,33 +48,36 @@ const App = () => {
             console.error('Error deleting todo:', error);
         }
     };
-    
 
     return (
-        <div>
-            <h1>Todos</h1>
-            <ul>
-                {todos.map(todo => (
-                    <li key={todo.id}>
-                        {todo.description} - {todo.priority}
-                        <button onClick={() => deleteTodo(todo.id)}>Delete</button>
-                    </li>
-                ))}
-            </ul>
-            <h2>Add Todo</h2>
-            <input
-                type="text"
-                placeholder="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-            />
-            <input
-                type="text"
-                placeholder="Priority"
-                value={priority}
-                onChange={(e) => setPriority(e.target.value)}
-            />
-            <button onClick={addTodo}>Add</button>
+        <div className="form">
+            <div className="register">
+                <h1 className="title">Todo List</h1>
+                <ul>
+                    {todos.map(todo => (
+                        <li key={todo.id} className={todo.priority.toLowerCase() + '-priority'}>
+                            {todo.description} - {todo.priority}
+                            <button className="delete" onClick={() => deleteTodo(todo.id)}>Delete</button>
+                        </li>
+                    ))}
+                </ul>
+                <input
+                    type="text"
+                    placeholder="Description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
+                <select
+                    className="priority"
+                    value={priority}
+                    onChange={(e) => setPriority(e.target.value)}
+                >
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+                <button className="add" onClick={addTodo}>Add</button>
+            </div>
         </div>
     );
 };

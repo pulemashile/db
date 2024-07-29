@@ -1,42 +1,116 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+body {
+    background-image: url('./assets/thumb-1920-592603.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transition: .2s ease-in-out;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.high-priority {
+    font-weight: bold;
+    color: red;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.medium-priority {
+    color: orange;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.low-priority {
+    color: green;
 }
 
-.card {
-  padding: 2em;
+.completed {
+    text-decoration: line-through;
 }
 
-.read-the-docs {
-  color: #888;
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: transparent; /* Remove background color if not needed */
+}
+
+.register {
+    padding: 20px;
+    border: 1px solid white;
+    height: 500px;
+    width: 400px;
+    backdrop-filter: blur(6px);
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+input {
+    background-color: white;
+    padding: 12px;
+    margin-bottom: 20px;
+    width: 250px;
+    border: none;
+    outline: none;
+    align-items: center;
+    border-radius: 25px;
+    color: black;
+    font-size: larger;
+}
+
+label {
+    font-size: large;
+    color: white;
+}
+
+.title {
+    color: #F7F6DC;
+}
+
+.delete {
+    width: auto;
+    height: auto;
+}
+
+.checkbox {
+    height: auto;
+    width: fit-content;
+}
+
+.add {
+    height: auto;
+    width: auto;
+}
+
+.priority {
+    width: 300px;
+    height: auto;
+    background-color: #64CCC5;
+    border-radius: 10px solid;
+}
+
+.dark-mode {
+    background: #242526;
+    transition: .2s ease-in-out;
+}
+
+div > span {
+    color: white;
+    font-size: larger;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.button-container button {
+    margin-right: 10px;
+}
+
+.button-container button:last-child {
+    margin-right: 0;
 }
