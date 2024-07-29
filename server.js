@@ -3,95 +3,90 @@ const cors = require('cors');
 const db = require('better-sqlite3')('database.db');
 const app = express();
 const port = 3001;
+
 app.use(cors());
 app.use(express.json());
+
 // Create the table
 const createTable = () => {
-    const userSql = `
-    CREATE TABLE IF NOT EXISTS user (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        password text
-    )`;
     const todoSql = `
     CREATE TABLE IF NOT EXISTS todo (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         description TEXT NOT NULL,
-        priority text
+        priority TEXT
     )`;
-    db.prepare(userSql).run();
     db.prepare(todoSql).run();
-    };
+};
 
 createTable();
 
-
-
-// Insert a new user
-app.post('/users', (req, res) => {
-    const { name, password } = req.body;
+// Insert a new todo
+app.post('/todos', (req, res) => {
+    const { description, priority } = req.body;
     const sql = `
-    INSERT INTO user (name, age)
+    INSERT INTO todo (description, priority)
     VALUES (?, ?)
     `;
-    const info = db.prepare(sql).run(name, age);
+    const info = db.prepare(sql).run(description, priority);
     res.status(201).json({ id: info.lastInsertRowid });
 });
 
-// Get all users
-app.get('/users', (req, res) => {
+// Get all todos
+app.get('/todos', (req, res) => {
     const sql = `
-    SELECT * FROM user
+    SELECT * FROM todo
     `;
     const rows = db.prepare(sql).all();
     res.json(rows);
 });
 
-// Get a user by id
-app.get('/users/:id', (req, res) => {
+// Get a todo by id
+app.get('/todos/:id', (req, res) => {
     const { id } = req.params;
     const sql = `
-    SELECT * FROM user
+    SELECT * FROM todo
     WHERE id = ?
     `;
     const row = db.prepare(sql).get(id);
     if (row) {
-    res.json(row);
+        res.json(row);
     } else {
-    res.status(404).json({ error: 'User not found' });
+        res.status(404).json({ error: 'Todo not found' });
     }
 });
 
-// Update a user by id
-app.put('/users/:id', (req, res) => {
-const { id } = req.params;
-const { name, password } = req.body;
-const sql = `
-UPDATE user
-SET name = ?, password = ?
-WHERE id = ?
-`;
-const info = db.prepare(sql).run(name, password, id);
-if (info.changes > 0) {
-res.json({ message: 'User updated successfully' });
-} else {
-res.status(404).json({ error: 'User not found' });
-}
+// Update a todo by id
+app.put('/todos/:id', (req, res) => {
+    const { id } = req.params;
+    const { description, priority } = req.body;
+    const sql = `
+    UPDATE todo
+    SET description = ?, priority = ?
+    WHERE id = ?
+    `;
+    const info = db.prepare(sql).run(description, priority, id);
+    if (info.changes > 0) {
+        res.json({ message: 'Todo updated successfully' });
+    } else {
+        res.status(404).json({ error: 'Todo not found' });
+    }
 });
-// Delete a user by id
-app.delete('/users/:id', (req, res) => {
-const { id } = req.params;
-const sql = `
-DELETE FROM user
-WHERE id = ?
-`;
-const info = db.prepare(sql).run(id);
-if (info.changes > 0) {
-res.json({ message: 'User deleted successfully' });
-} else {
-res.status(404).json({ error: 'User not found' });
-}
+
+// Delete a todo by id
+app.delete('/todos/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = `
+    DELETE FROM todo
+    WHERE id = ?
+    `;
+    const info = db.prepare(sql).run(id);
+    if (info.changes > 0) {
+        res.json({ message: 'Todo deleted successfully' });
+    } else {
+        res.status(404).json({ error: 'Todo not found' });
+    }
 });
+
 app.listen(port, () => {
-console.log(`Server running at http://localhost:${port}`);
+    console.log(`Server running at http://localhost:${port}`);
 });
