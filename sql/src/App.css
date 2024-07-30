@@ -1,5 +1,5 @@
 body {
-    background-image: url('./assets/thumb-1920-592603.jpg');
+   background-image: url('./assets/R.jfif');
     background-repeat: no-repeat;
     background-size: cover;
     box-sizing: border-box;
@@ -10,15 +10,17 @@ body {
 
 .high-priority {
     font-weight: bold;
-    color: red;
+    color: #FF0000
 }
 
 .medium-priority {
-    color: orange;
+    color:#FFAF00;
+    font-weight:bold
 }
 
 .low-priority {
-    color: green;
+    color:#399918;
+    font-weight:bold
 }
 
 .completed {
@@ -27,10 +29,25 @@ body {
 
 .form {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    padding-inline: 20dvw;
     align-items: center;
     height: 100vh;
     background-color: transparent; /* Remove background color if not needed */
+}
+.form > div:nth-child(2){
+    
+    backdrop-filter: blur(6px);
+    border: 1px solid white;
+    width: 400px;
+    height: 200px;
+    border-radius: 5%;
+    font-size: larger;
+    
+    font-family: Arial, Helvetica, sans-serif;
+
+
+
 }
 
 .register {
@@ -66,7 +83,7 @@ label {
 }
 
 .title {
-    color: #F7F6DC;
+    color:black
 }
 
 .delete {
@@ -85,11 +102,16 @@ label {
 }
 
 .priority {
-    width: 300px;
-    height: auto;
-    background-color: #64CCC5;
-    border-radius: 10px solid;
+    width: 250px;
+    height: 10%;
+    background-color:#C80036; 
+    border-radius: 50pt;
+    padding-inline: 20px;
+    text-align: center;
 }
+
+
+
 
 .dark-mode {
     background: #242526;
@@ -113,4 +135,23 @@ div > span {
 
 .button-container button:last-child {
     margin-right: 0;
+}
+.add{
+    
+
+}
+.delete{
+    color: #C80036;
+    backdrop-filter: blur(6px);
+    background-color: transparent;
+    border: none;
+    height: auto;
+    width: auto;
+}
+
+.edit{
+    color: black;
+    backdrop-filter: blur(6px);
+    background-color: transparent;
+    border: none;
 }
