@@ -33,7 +33,7 @@ body {
     padding-inline: 20dvw;
     align-items: center;
     height: 100vh;
-    background-color: transparent; /* Remove background color if not needed */
+    background-color: black
 }
 .form > div:nth-child(2){
     
@@ -56,7 +56,7 @@ body {
     height: 500px;
     width: 400px;
     backdrop-filter: blur(6px);
-    border-radius: 25px;
+    background-color: rgba(128, 128, 128, 0.5); 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -155,3 +155,128 @@ div > span {
     background-color: transparent;
     border: none;
 }
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2.title {
+    color: black;
+    margin-bottom: 20px;
+}
+
+.input-field {
+    background-color: white;
+    padding: 12px;
+    margin-bottom: 20px;
+    width: 250px;
+    border: none;
+    outline: none;
+    border-radius: 25px;
+    color: black;
+    font-size: larger;
+}
+
+.submit-button {
+    background-color: #C80036;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: larger;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.submit-button:hover {
+    background-color: #A70028;
+}
+
+.link-container {
+    margin-top: 10px;
+}
+
+.link {
+    color: #C80036;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+
+.todo-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+
+.todo-controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid white;
+    border-radius: 25px;
+    backdrop-filter: blur(6px);
+    background-color: rgba(128, 128, 128, 0.5); 
+}
+
+
+.todo-list {
+    flex: 1;
+    
+    padding: 20px;
+    width: 300px; 
+    height: 300px;
+    
+    
+    display: flex;
+    flex-direction: column;
+    
+    border: 1px solid white;
+    border-radius: 25px;
+    backdrop-filter: blur(6px);
+    background-color: rgba(128, 128, 128, 0.5); /* Grey background with 50% opacity */
+}
+
+
+
+
+.todo-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.todo-list li {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+
+}
+
+.todo-list li.high-priority {
+    color: #FF0000;
+    font-weight: bold;
+}
+
+.todo-list li.medium-priority {
+    color: #FFAF00;
+    font-weight: bold;
+}
+
+.todo-list li.low-priority {
+    color: #399918;
+    font-weight: bold;
+}
+
+.todo-list li.completed {
+    text-decoration: line-through;
+}
+

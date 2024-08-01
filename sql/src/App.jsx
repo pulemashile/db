@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "./App.css";
-import {RiSaveLine,RiAddLine,RiDeleteBin7Line,RiPencilLine } from '@remixicon/react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from "./login.jsx";
+import Register from './register.jsx';
+import Todo from "./todo.jsx";
+import "./App.css"
 
 const App = () => {
     const [todos, setTodos] = useState([]);
@@ -10,14 +13,20 @@ const App = () => {
     const [editing, setEditing] = useState(false);
     const [editingId, setEditingId] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('token'));
 
     useEffect(() => {
-        fetchTodos();
-    }, []);
+        if (loggedIn) {
+            fetchTodos();
+        }
+    }, [loggedIn]);
 
     const fetchTodos = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/todos');
+            const token = localStorage.getItem('token');
+            const response = await axios.get('http://localhost:3001/todos', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
             setTodos(response.data);
         } catch (error) {
             console.error('Error fetching todos:', error);
@@ -25,8 +34,16 @@ const App = () => {
     };
 
     const addTodo = async () => {
+        if (!description || !priority) {
+            alert('Description and priority are required');
+            return;
+        }
+
         try {
-            await axios.post('http://localhost:3001/todos', { description, priority });
+            const token = localStorage.getItem('token');
+            await axios.post('http://localhost:3001/todos', { description, priority }, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
             setDescription('');
             setPriority('');
             fetchTodos();
@@ -37,7 +54,10 @@ const App = () => {
 
     const updateTodo = async () => {
         try {
-            await axios.put(`http://localhost:3001/todos/${editingId}`, { description, priority });
+            const token = localStorage.getItem('token');
+            await axios.put(`http://localhost:3001/todos/${editingId}`, { description, priority }, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
             fetchTodos();
             setDescription('');
             setPriority('');
@@ -50,7 +70,10 @@ const App = () => {
 
     const deleteTodo = async (id) => {
         try {
-            await axios.delete(`http://localhost:3001/todos/${id}`);
+            const token = localStorage.getItem('token');
+            await axios.delete(`http://localhost:3001/todos/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
             fetchTodos();
         } catch (error) {
             console.error('Error deleting todo:', error);
@@ -68,56 +91,55 @@ const App = () => {
         todo.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    return (
-        <div className="form">
-            {/* 1st Column */}
-            <div className="register">
-                <h1 className="title">Todo List</h1>
-                <input
-                    type="text"
-                    placeholder="Search todos..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="what do you want todo ?"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-                <select
-                    className="priority"
-                    value={priority}
-                    onChange={(e) => setPriority(e.target.value)}
-                >
-                    <option id='priority_value' value="High">High</option>
-                    <option id='priority_value'value="Medium">Medium</option>
-                    <option id='priority_value'value="Low">Low</option>
-                </select>
-                {editing ? (
-                    <button className="add" onClick={updateTodo}><RiSaveLine/></button>
-                ) : (
-                    <button className="add" onClick={addTodo}><RiAddLine/></button>
-                )}
-                
-            </div>
+    const handleLogin = () => {
+        setLoggedIn(true);
+    };
 
-            {/* 2nd Column */}
-            <div className=''>
-                <div>
-                <ul>
-                    {filteredTodos.map(todo => {
-                        return (
-                            <li key={todo.id} className={todo.priority.toLowerCase() + '-priority'}>
-                                {todo.description} - {todo.priority}
-                                <button className="delete" onClick={() => deleteTodo(todo.id)}><RiDeleteBin7Line /></button>
-                                <button className="edit" onClick={() => handleEdit(todo)}><RiPencilLine /></button>
-                            </li>
-                        );
-                    })}
-                </ul>  
-                </div>
-            </div>
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setLoggedIn(false);
+    };
+
+    return (
+        <div className="app">
+            <Router>
+                <Routes>
+                    <Route
+                        path="/login"
+                        element={!loggedIn ? <Login onLogin={handleLogin} /> : <Navigate to="/todo" />}
+                    />
+                    <Route
+                        path="/register"
+                        element={!loggedIn ? <Register /> : <Navigate to="/todo" />}
+                    />
+                    <Route
+                        path="/todo"
+                        element={loggedIn ? (
+                            <Todo
+                                todos={todos}
+                                description={description}
+                                setDescription={setDescription}
+                                priority={priority}
+                                setPriority={setPriority}
+                                editing={editing}
+                                setEditing={setEditing}
+                                editingId={editingId}
+                                setEditingId={setEditingId}
+                                searchTerm={searchTerm}
+                                setSearchTerm={setSearchTerm}
+                                addTodo={addTodo}
+                                updateTodo={updateTodo}
+                                deleteTodo={deleteTodo}
+                                handleEdit={handleEdit}
+                                handleLogout={handleLogout}
+                            />
+                        ) : (
+                            <Navigate to="/login" />
+                        )}
+                    />
+                    <Route path="/" element={<Navigate to={loggedIn ? "/todo" : "/login"} />} />
+                </Routes>
+            </Router>
         </div>
     );
 };
