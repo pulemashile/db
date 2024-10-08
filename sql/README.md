@@ -1,8 +1,27 @@
-# React + Vite
+this is my todo app  it has crud functions for deleting ,updating and adding rooms  and  most importantly it can search your todos incase you have a lot of todos used sql as the data darta base still neeed a bit of update on the ui 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+run locally
 
-Currently, two official plugins are available:
+clone the project
+git clone https://github.com/pulemashile/db.git
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+go to the project directory
+cd db
+
+cd sql
+
+
+install dependencies
+
+
+npm install
+  
+  start the server 
+
+  node server
+
+start the react vite react server
+
+npm run dev
+
+then go to the server s directory
