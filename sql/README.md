@@ -18,7 +18,10 @@ npm install
   
   start the server 
 
-  node server
+  node server.js
+
+  to see the database you should install sqlite explorer in the extension in visual code after the set up
+  you can see the database in the extensions tab in visual code , after opening the database you will see the database.
 
 start the react vite react server
 

@@ -66,18 +66,29 @@ app.post('/login', (req, res) => {
 
 // Middleware for validating JWT
 const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    
-    if (token == null) return res.sendStatus(401);
-    
-    jwt.verify(token, secret, (err, user) => {
-        if (err) return res.sendStatus(403);
-        req.user = user;
-        next();
-    });
-};
+  console.log('Authenticating token...');
 
+  const authHeader = req.headers['authorization'];
+  console.log('Auth header:', authHeader);
+
+  const token = authHeader && authHeader.split(' ')[1];
+  console.log('Token:', token);
+
+  if (token == null) {
+    console.log('Token is null');
+    return res.sendStatus(401);
+  }
+
+  jwt.verify(token, secret, (err, user) => {
+    if (err) {
+      console.log('Error verifying token:', err);
+      return res.sendStatus(403);
+    }
+    console.log('Token verified successfully');
+    req.user = user;
+    next();
+  });
+};
 // Protect routes with authentication
 app.use(authenticateToken);
 

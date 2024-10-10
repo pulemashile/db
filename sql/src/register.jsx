@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './App.css';  // Ensure this imports the CSS with the styles
 
 const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
             await axios.post('http://localhost:3001/register', { username, password });
             alert('Registration successful');
+            navigate('/login');
         } catch (error) {
             alert('Registration failed');
         }
